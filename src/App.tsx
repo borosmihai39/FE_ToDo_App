@@ -1,12 +1,14 @@
 import React from "react";
 import "./App.css";
-import { Todos, Navbar, Footer } from "./components/index";
+import { Routes, Route } from "react-router-dom";
+import { MainPage, About } from "./pages";
 function App() {
   return (
     <div className="App">
-      <Navbar></Navbar>
-      <Todos />
-      <Footer></Footer>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
 }

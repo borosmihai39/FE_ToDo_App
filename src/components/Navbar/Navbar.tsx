@@ -6,15 +6,15 @@ import {
   Typography,
   Button,
   Stack,
-  Link,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar sx={{ justifyContent: "flex-end" }}>
         <IconButton size="large" edge="start" color="inherit" aria-label="logo">
-          <Link href="/" color="inherit">
+          <Link to="/" color="inherit">
             <ListAltIcon />
           </Link>
         </IconButton>
