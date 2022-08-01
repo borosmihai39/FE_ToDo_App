@@ -35,6 +35,10 @@ const Todos = (): JSX.Element => {
   // Refs
   const addToDoForm = useRef<HTMLFormElement>(null);
   const updateToDoForm = useRef<HTMLFormElement>(null);
+  const checkbox1 = useRef<HTMLInputElement>(null);
+  const checkbox2 = useRef<HTMLInputElement>(null);
+  const checkbox3 = useRef<HTMLInputElement>(null);
+  const checkbox4 = useRef<HTMLInputElement>(null);
   //   getting existing Todos
   useEffect(() => {
     const fetchData = async () => {
@@ -56,8 +60,7 @@ const Todos = (): JSX.Element => {
 
     fetchData();
   }, [rerender]);
-
-  //   Adding a todo
+  //   Adding a To Do
   const handleSubmitAdd = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevent page refresh
     axios
@@ -74,16 +77,15 @@ const Todos = (): JSX.Element => {
         console.log(res.data);
       });
   };
-
-  //   update ToDo
+  //   Updating a To Do
   const handleSubmitUpdate = (
     event: React.SyntheticEvent<HTMLFormElement>,
     _id: string
   ) => {
     event?.preventDefault(); // prevent page refresh
-    const updateForm = document.getElementById(
-      "updateForm"
-    ) as HTMLFormElement | null;
+    setIsDoneUpdate(false);
+    setHasAttachmentUpdate(false);
+
     axios
       .post("http://localhost:3000/api/todo", {
         _id: _id,
@@ -94,49 +96,38 @@ const Todos = (): JSX.Element => {
       })
       .then((res) => {
         setRerender(!rerender);
-        updateForm?.reset();
+        updateToDoForm.current?.reset();
         console.log(res);
         console.log(res.data);
       });
   };
-
-  //   checkbox state change function
-  const clickCheckbox = () => {
-    const checkBox1 = document.getElementById(
-      "isDone"
-    ) as HTMLInputElement | null;
-    const checkBox2 = document.getElementById(
-      "hasAttachment"
-    ) as HTMLInputElement | null;
-    const checkBox3 = document.getElementById(
-      "isDoneUpdate"
-    ) as HTMLInputElement | null;
-    const checkBox4 = document.getElementById(
-      "hasAttachmentUpdate"
-    ) as HTMLInputElement | null;
-    if (checkBox1!.checked === true) {
-      setIsDone(true);
-    } else {
-      setIsDone(false);
-    }
-    if (checkBox2!.checked === true) {
-      setHasAttachment(true);
-    } else {
-      setHasAttachment(false);
-    }
-    if (checkBox3!.checked === true) {
+  // update updateCheckboxes state
+  const clickCheckBoxUpdate = () => {
+    if (checkbox3.current!.checked === true) {
       setIsDoneUpdate(true);
     } else {
       setIsDoneUpdate(false);
     }
-    if (checkBox4!.checked === true) {
+    if (checkbox4.current!.checked === true) {
       setHasAttachmentUpdate(true);
     } else {
       setHasAttachmentUpdate(false);
     }
   };
-
-  //   delete ToDo
+  // update addCheckboxes state
+  const clickCheckboxAdd = () => {
+    if (checkbox1.current!.checked === true) {
+      setIsDone(true);
+    } else {
+      setIsDone(false);
+    }
+    if (checkbox2.current!.checked === true) {
+      setHasAttachment(true);
+    } else {
+      setHasAttachment(false);
+    }
+  };
+  //  Deleting a To Do
   const removeUser = async (_id: string) => {
     try {
       const res = await axios.delete("http://localhost:3000/api/todo", {
@@ -165,11 +156,12 @@ const Todos = (): JSX.Element => {
     }
   };
   // Update To Do button functionality
-  const showUpdateToDoForm = () => {
-    if (showUpdateToDo === "updateToDoForm-visible") {
+  const showUpdateToDoForm = (id: string) => {
+    setshowUpdateToDo(id);
+    if (showUpdateToDo === id) {
       setshowUpdateToDo("updateToDoForm-hidden");
     } else if (showUpdateToDo === "updateToDoForm-hidden") {
-      setshowUpdateToDo("updateToDoForm-visible");
+      setshowUpdateToDo(id);
     }
   };
 
@@ -183,7 +175,7 @@ const Todos = (): JSX.Element => {
             {data.length === 0
               ? "There are no to do's added. Please add a new to do."
               : data.map((item, index) => (
-                  <li>
+                  <li key={item._id}>
                     <span id="thick-text">Username</span>
                     {` ${item.username} `}
                     <span id="thick-text">Todo</span>
@@ -198,47 +190,49 @@ const Todos = (): JSX.Element => {
                     >{`ID ${item._id.toString()} `}</span>
 
                     <button onClick={() => removeUser(item._id)}>Delete</button>
-                    <button onClick={() => showId()}>{showDivIdText}</button>
-                    <button onClick={() => showUpdateToDoForm()}>
+
+                    <button onClick={() => showUpdateToDoForm(item._id)}>
                       Update To Do
                     </button>
-
-                    <form
-                      onSubmit={(e) => handleSubmitUpdate(e, item._id)}
-                      id="updateForm"
-                      className={showUpdateToDo}
-                      ref={updateToDoForm}
-                    >
-                      <h3>Update a To Do Item</h3>
-
-                      <label>
-                        To Do:
-                        <input
-                          type="text"
-                          name="name"
-                          onChange={(event) => setToDo(event.target.value)}
-                        />
-                      </label>
-                      <label htmlFor="isDone">
-                        Is done?
-                        <input
-                          type="checkbox"
-                          id="isDoneUpdate"
-                          name="isDoneUpdate"
-                          onClick={clickCheckbox}
-                        ></input>
-                      </label>
-                      <label htmlFor="hasAttachment">
-                        Has Attachment?
-                        <input
-                          type="checkbox"
-                          id="hasAttachmentUpdate"
-                          name="hasAttachmentUpdate"
-                          onClick={clickCheckbox}
-                        ></input>
-                      </label>
-                      <input type="submit" value="Submit" />
-                    </form>
+                    <button onClick={() => showId()}>{showDivIdText}</button>
+                    {showUpdateToDo === item._id && (
+                      <form
+                        onSubmit={(e) => handleSubmitUpdate(e, item._id)}
+                        id="updateToDoForm"
+                        className={showUpdateToDo}
+                        ref={updateToDoForm}
+                      >
+                        <label>
+                          To Do:
+                          <input
+                            type="text"
+                            name="name"
+                            onChange={(event) => setToDo(event.target.value)}
+                          />
+                        </label>
+                        <label htmlFor="isDone">
+                          Is done?
+                          <input
+                            ref={checkbox3}
+                            type="checkbox"
+                            id="isDoneUpdate"
+                            name="isDoneUpdate"
+                            onClick={clickCheckBoxUpdate}
+                          ></input>
+                        </label>
+                        <label htmlFor="hasAttachment">
+                          Has Attachment?
+                          <input
+                            ref={checkbox4}
+                            type="checkbox"
+                            id="hasAttachmentUpdate"
+                            name="hasAttachmentUpdate"
+                            onClick={clickCheckBoxUpdate}
+                          ></input>
+                        </label>
+                        <input type="submit" value="Submit" />
+                      </form>
+                    )}
                   </li>
                 ))}
           </ul>
@@ -266,19 +260,21 @@ const Todos = (): JSX.Element => {
           <label htmlFor="isDone">
             Is done?
             <input
+              ref={checkbox1}
               type="checkbox"
               id="isDone"
               name="isDone"
-              onClick={clickCheckbox}
+              onClick={clickCheckboxAdd}
             ></input>
           </label>
           <label htmlFor="hasAttachment">
             Has Attachment?
             <input
+              ref={checkbox2}
               type="checkbox"
               id="hasAttachment"
               name="hasAttachment"
-              onClick={clickCheckbox}
+              onClick={clickCheckboxAdd}
             ></input>
           </label>
           <input type="submit" value="Submit" />
