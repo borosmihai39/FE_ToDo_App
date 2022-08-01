@@ -1,7 +1,9 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { Button, ButtonGroup, Input } from "@mui/material";
 import axios from "axios";
 import "./Todos.css";
+
 interface Todo {
   _id: string;
   username: string;
@@ -187,14 +189,37 @@ const Todos = (): JSX.Element => {
                     <span
                       id="thick-text"
                       className={showDivId}
+                      style={{ color: "purple" }}
                     >{`ID ${item._id.toString()} `}</span>
 
-                    <button onClick={() => removeUser(item._id)}>Delete</button>
+                    <ButtonGroup>
+                      <Button
+                        variant="contained"
+                        onClick={() => removeUser(item._id)}
+                        color="error"
+                        size="small"
+                      >
+                        Delete
+                      </Button>
 
-                    <button onClick={() => showUpdateToDoForm(item._id)}>
-                      Update To Do
-                    </button>
-                    <button onClick={() => showId()}>{showDivIdText}</button>
+                      <Button
+                        variant="contained"
+                        onClick={() => showUpdateToDoForm(item._id)}
+                        color="primary"
+                        size="small"
+                      >
+                        Update To Do
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={() => showId()}
+                        color="secondary"
+                        size="small"
+                      >
+                        {showDivIdText}
+                      </Button>
+                    </ButtonGroup>
+
                     {showUpdateToDo === item._id && (
                       <form
                         onSubmit={(e) => handleSubmitUpdate(e, item._id)}
@@ -230,7 +255,14 @@ const Todos = (): JSX.Element => {
                             onClick={clickCheckBoxUpdate}
                           ></input>
                         </label>
-                        <input type="submit" value="Submit" />
+                        <Button
+                          variant="contained"
+                          type="submit"
+                          color="success"
+                          size="small"
+                        >
+                          Submit
+                        </Button>
                       </form>
                     )}
                   </li>
@@ -277,7 +309,14 @@ const Todos = (): JSX.Element => {
               onClick={clickCheckboxAdd}
             ></input>
           </label>
-          <input type="submit" value="Submit" />
+          <Button
+            variant="contained"
+            type="submit"
+            color="success"
+            size="small"
+          >
+            Submit
+          </Button>
         </form>
       </div>
     </>

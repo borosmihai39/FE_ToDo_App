@@ -15,7 +15,11 @@ const Footer = () => {
             <Grid item xs={12} sm={4}>
               <Box borderBottom={1}>Help</Box>
               <Box>
-                <Link to="/" color="inherit">
+                <Link
+                  to="/"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   Contact
                 </Link>
               </Box>
@@ -23,12 +27,20 @@ const Footer = () => {
             <Grid item xs={12} sm={4}>
               <Box borderBottom={1}>Account</Box>
               <Box>
-                <Link to="/" color="inherit">
+                <Link
+                  to="/"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   Login
                 </Link>
               </Box>
               <Box>
-                <Link to="/" color="inherit">
+                <Link
+                  to="/"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   Register
                 </Link>
               </Box>
@@ -36,12 +48,21 @@ const Footer = () => {
             <Grid item xs={12} sm={4}>
               <Box borderBottom={1}>About</Box>
               <Box>
-                <Link to="/about" color="inherit">
+                <Link
+                  to="/about"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   Features
                 </Link>
               </Box>
               <Box>
-                <a href="http://localhost:3000/api/setupTodos">Seed DB</a>
+                <a
+                  href="http://localhost:3000/api/setupTodos"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Seed DB
+                </a>
               </Box>
             </Grid>
           </Grid>

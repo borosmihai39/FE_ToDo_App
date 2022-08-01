@@ -8,6 +8,10 @@ ul {
   margin: 0;
 }
 
+li {
+  margin-top: 5px;
+}
+
 #updateToDoForm {
   display: flex;
   flex-direction: row;
@@ -15,6 +19,7 @@ ul {
   height: 30px;
   align-items: center;
   justify-content: center;
+  margin-top: 5px;
 }
 
 form {

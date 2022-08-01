@@ -14,7 +14,11 @@ const Navbar = () => {
     <AppBar position="static">
       <Toolbar sx={{ justifyContent: "flex-end" }}>
         <IconButton size="large" edge="start" color="inherit" aria-label="logo">
-          <Link to="/" color="inherit">
+          <Link
+            to="/"
+            color="inherit"
+            style={{ textDecoration: "none", color: "white" }}
+          >
             <ListAltIcon />
           </Link>
         </IconButton>
@@ -22,7 +26,15 @@ const Navbar = () => {
           To Do List App
         </Typography>
         <Stack direction="row" spacing={2}>
-          <Button color="inherit">About</Button>
+          <Button color="inherit">
+            <Link
+              to="/about"
+              color="inherit"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              About
+            </Link>
+          </Button>
           <Button color="inherit">Login</Button>
         </Stack>
       </Toolbar>
