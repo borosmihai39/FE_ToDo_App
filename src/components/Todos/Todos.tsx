@@ -167,8 +167,8 @@ const Todos = (): JSX.Element => {
 
   return (
     <>
-      <h1>Todos</h1>
       <div id="contents">
+        <h1>Todos</h1>
         {loading && <div>Loading</div>}
         {!loading && (
           <ul id="todos">
@@ -210,7 +210,7 @@ const Todos = (): JSX.Element => {
                             onChange={(event) => setToDo(event.target.value)}
                           />
                         </label>
-                        <label htmlFor="isDone">
+                        <label htmlFor="isDoneUpdate">
                           Is done?
                           <input
                             ref={checkbox3}
@@ -220,7 +220,7 @@ const Todos = (): JSX.Element => {
                             onClick={clickCheckBoxUpdate}
                           ></input>
                         </label>
-                        <label htmlFor="hasAttachment">
+                        <label htmlFor="hasAttachmentUpdate">
                           Has Attachment?
                           <input
                             ref={checkbox4}
