@@ -35,7 +35,15 @@ const Navbar = () => {
               About
             </Link>
           </Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">
+            <Link
+              to="/login"
+              color="inherit"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              Login
+            </Link>
+          </Button>
         </Stack>
       </Toolbar>
     </AppBar>
