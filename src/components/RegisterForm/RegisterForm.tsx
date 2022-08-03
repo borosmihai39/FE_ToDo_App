@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+const axios = require("axios").default;
 const RegisterForm = () => {
   let [userName, setUsername] = useState<String>("");
   let [password, setPassword] = useState<String>("");
@@ -27,7 +28,30 @@ const RegisterForm = () => {
     ) {
       setErrorMessage("Input fields cannot be empty!");
     } else {
-      setErrorMessage("OK");
+      const newUserRegistration = {
+        username: userName,
+        password: password,
+      };
+
+      const sendRegistrationRequest = async () => {
+        try {
+          const resp = await axios.post(
+            "http://localhost:3000/user/signup",
+            newUserRegistration
+          );
+          if (resp.status === 200) {
+            setErrorMessage("Sucessfully registered!");
+          } else {
+            return null;
+          }
+        } catch (err) {
+          // Handle Error Here
+          setErrorMessage("Username already exists!");
+          console.error(err);
+        }
+      };
+
+      sendRegistrationRequest();
     }
   };
   return (
@@ -84,7 +108,12 @@ const RegisterForm = () => {
             >
               Register
             </Button>
-            <div style={{ color: "red" }}>{errorMessage}</div>
+            {errorMessage === "Sucessfully registered!" ? (
+              <div style={{ color: "green" }}>{errorMessage}</div>
+            ) : (
+              <div style={{ color: "red" }}>{errorMessage}</div>
+            )}
+
             <Typography>
               <Button>
                 <Link

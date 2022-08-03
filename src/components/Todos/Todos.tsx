@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect, useRef } from "react";
 import { Button, ButtonGroup, Input } from "@mui/material";
 import axios from "axios";
 import "./Todos.css";
+import { UserContext } from "../../context/UserContext";
 
 interface Todo {
   _id: string;
@@ -34,6 +35,8 @@ const Todos = (): JSX.Element => {
   let [showUpdateToDo, setshowUpdateToDo] = useState<string>(
     "updateToDoForm-hidden"
   );
+  // user context
+  const { loggedIn, setLoggedIn } = useContext(UserContext);
   // Refs
   const addToDoForm = useRef<HTMLFormElement>(null);
   const updateToDoForm = useRef<HTMLFormElement>(null);
@@ -47,7 +50,14 @@ const Todos = (): JSX.Element => {
       setLoading(true);
       try {
         const { data: response } = await axios.get(
-          "http://localhost:3000/api/todos"
+          "http://localhost:3000/api/todos",
+          {
+            headers: {
+              Authorization: `bearer ${localStorage.getItem(
+                "authorizationToken"
+              )}`,
+            },
+          }
         );
         setData(response);
       } catch (error: unknown) {
@@ -169,156 +179,160 @@ const Todos = (): JSX.Element => {
 
   return (
     <>
-      <div id="contents">
-        <h1>Todos</h1>
-        {loading && <div>Loading</div>}
-        {!loading && (
-          <ul id="todos">
-            {data.length === 0
-              ? "There are no to do's added. Please add a new to do."
-              : data.map((item, index) => (
-                  <li key={item._id}>
-                    <span id="thick-text">Username</span>
-                    {` ${item.username} `}
-                    <span id="thick-text">Todo</span>
-                    {` ${item.todo} `}
-                    <span id="thick-text">Is it done?</span>
-                    {` ${item.isDone.toString()} `}
-                    <span id="thick-text"> Has any attachments?</span>
-                    {` ${item.hasAttachment.toString()} `}
-                    <span
-                      id="thick-text"
-                      className={showDivId}
-                      style={{ color: "purple" }}
-                    >{`ID ${item._id.toString()} `}</span>
+      {loggedIn === true ? (
+        <div id="contents">
+          <h1>Todos</h1>
+          {loading && <div>Loading</div>}
+          {!loading && (
+            <ul id="todos">
+              {data.length === 0
+                ? "There are no to do's added. Please add a new to do."
+                : data.map((item, index) => (
+                    <li key={item._id}>
+                      <span id="thick-text">Username</span>
+                      {` ${item.username} `}
+                      <span id="thick-text">Todo</span>
+                      {` ${item.todo} `}
+                      <span id="thick-text">Is it done?</span>
+                      {` ${item.isDone.toString()} `}
+                      <span id="thick-text"> Has any attachments?</span>
+                      {` ${item.hasAttachment.toString()} `}
+                      <span
+                        id="thick-text"
+                        className={showDivId}
+                        style={{ color: "purple" }}
+                      >{`ID ${item._id.toString()} `}</span>
 
-                    <ButtonGroup>
-                      <Button
-                        variant="contained"
-                        onClick={() => removeUser(item._id)}
-                        color="error"
-                        size="small"
-                      >
-                        Delete
-                      </Button>
-
-                      <Button
-                        variant="contained"
-                        onClick={() => showUpdateToDoForm(item._id)}
-                        color="primary"
-                        size="small"
-                      >
-                        Update To Do
-                      </Button>
-                      <Button
-                        variant="contained"
-                        onClick={() => showId()}
-                        color="secondary"
-                        size="small"
-                      >
-                        {showDivIdText}
-                      </Button>
-                    </ButtonGroup>
-
-                    {showUpdateToDo === item._id && (
-                      <form
-                        onSubmit={(e) => handleSubmitUpdate(e, item._id)}
-                        id="updateToDoForm"
-                        className={showUpdateToDo}
-                        ref={updateToDoForm}
-                      >
-                        <label>
-                          To Do:
-                          <input
-                            type="text"
-                            name="name"
-                            onChange={(event) => setToDo(event.target.value)}
-                          />
-                        </label>
-                        <label htmlFor="isDoneUpdate">
-                          Is done?
-                          <input
-                            ref={checkbox3}
-                            type="checkbox"
-                            id="isDoneUpdate"
-                            name="isDoneUpdate"
-                            onClick={clickCheckBoxUpdate}
-                          ></input>
-                        </label>
-                        <label htmlFor="hasAttachmentUpdate">
-                          Has Attachment?
-                          <input
-                            ref={checkbox4}
-                            type="checkbox"
-                            id="hasAttachmentUpdate"
-                            name="hasAttachmentUpdate"
-                            onClick={clickCheckBoxUpdate}
-                          ></input>
-                        </label>
+                      <ButtonGroup>
                         <Button
                           variant="contained"
-                          type="submit"
-                          color="success"
+                          onClick={() => removeUser(item._id)}
+                          color="error"
                           size="small"
                         >
-                          Submit
+                          Delete
                         </Button>
-                      </form>
-                    )}
-                  </li>
-                ))}
-          </ul>
-        )}
 
-        <form onSubmit={handleSubmitAdd} id="addForm" ref={addToDoForm}>
-          <h3>Add a To Do Item</h3>
+                        <Button
+                          variant="contained"
+                          onClick={() => showUpdateToDoForm(item._id)}
+                          color="primary"
+                          size="small"
+                        >
+                          Update To Do
+                        </Button>
+                        <Button
+                          variant="contained"
+                          onClick={() => showId()}
+                          color="secondary"
+                          size="small"
+                        >
+                          {showDivIdText}
+                        </Button>
+                      </ButtonGroup>
 
-          <label>
-            To Do:
-            <input
-              type="text"
-              name="name"
-              onChange={(event) => setToDo(event.target.value)}
-            />
-          </label>
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              onChange={(event) => setName(event.target.value)}
-            />
-          </label>
-          <label htmlFor="isDone">
-            Is done?
-            <input
-              ref={checkbox1}
-              type="checkbox"
-              id="isDone"
-              name="isDone"
-              onClick={clickCheckboxAdd}
-            ></input>
-          </label>
-          <label htmlFor="hasAttachment">
-            Has Attachment?
-            <input
-              ref={checkbox2}
-              type="checkbox"
-              id="hasAttachment"
-              name="hasAttachment"
-              onClick={clickCheckboxAdd}
-            ></input>
-          </label>
-          <Button
-            variant="contained"
-            type="submit"
-            color="success"
-            size="small"
-          >
-            Submit
-          </Button>
-        </form>
-      </div>
+                      {showUpdateToDo === item._id && (
+                        <form
+                          onSubmit={(e) => handleSubmitUpdate(e, item._id)}
+                          id="updateToDoForm"
+                          className={showUpdateToDo}
+                          ref={updateToDoForm}
+                        >
+                          <label>
+                            To Do:
+                            <input
+                              type="text"
+                              name="name"
+                              onChange={(event) => setToDo(event.target.value)}
+                            />
+                          </label>
+                          <label htmlFor="isDoneUpdate">
+                            Is done?
+                            <input
+                              ref={checkbox3}
+                              type="checkbox"
+                              id="isDoneUpdate"
+                              name="isDoneUpdate"
+                              onClick={clickCheckBoxUpdate}
+                            ></input>
+                          </label>
+                          <label htmlFor="hasAttachmentUpdate">
+                            Has Attachment?
+                            <input
+                              ref={checkbox4}
+                              type="checkbox"
+                              id="hasAttachmentUpdate"
+                              name="hasAttachmentUpdate"
+                              onClick={clickCheckBoxUpdate}
+                            ></input>
+                          </label>
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            color="success"
+                            size="small"
+                          >
+                            Submit
+                          </Button>
+                        </form>
+                      )}
+                    </li>
+                  ))}
+            </ul>
+          )}
+
+          <form onSubmit={handleSubmitAdd} id="addForm" ref={addToDoForm}>
+            <h3>Add a To Do Item</h3>
+
+            <label>
+              To Do:
+              <input
+                type="text"
+                name="name"
+                onChange={(event) => setToDo(event.target.value)}
+              />
+            </label>
+            <label>
+              Name:
+              <input
+                type="text"
+                name="name"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </label>
+            <label htmlFor="isDone">
+              Is done?
+              <input
+                ref={checkbox1}
+                type="checkbox"
+                id="isDone"
+                name="isDone"
+                onClick={clickCheckboxAdd}
+              ></input>
+            </label>
+            <label htmlFor="hasAttachment">
+              Has Attachment?
+              <input
+                ref={checkbox2}
+                type="checkbox"
+                id="hasAttachment"
+                name="hasAttachment"
+                onClick={clickCheckboxAdd}
+              ></input>
+            </label>
+            <Button
+              variant="contained"
+              type="submit"
+              color="success"
+              size="small"
+            >
+              Submit
+            </Button>
+          </form>
+        </div>
+      ) : (
+        <h2>Please Log In in order to add To Dos!</h2>
+      )}
     </>
   );
 };

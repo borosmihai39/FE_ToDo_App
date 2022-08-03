@@ -28,7 +28,7 @@ const Footer = () => {
               <Box borderBottom={1}>Account</Box>
               <Box>
                 <Link
-                  to="/"
+                  to="/login"
                   color="inherit"
                   style={{ textDecoration: "none", color: "white" }}
                 >
@@ -37,7 +37,7 @@ const Footer = () => {
               </Box>
               <Box>
                 <Link
-                  to="/"
+                  to="/register"
                   color="inherit"
                   style={{ textDecoration: "none", color: "white" }}
                 >
@@ -61,7 +61,7 @@ const Footer = () => {
                   href="http://localhost:3000/api/setupTodos"
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  Seed DB
+                  [Legacy] Seed DB
                 </a>
               </Box>
             </Grid>
