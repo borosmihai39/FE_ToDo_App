@@ -2,6 +2,7 @@
   height: 40vmin;
   pointer-events: none;
 }
+
 .App {
   display: flex;
   min-height: 100vh;

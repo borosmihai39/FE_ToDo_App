@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { MainPage, About, Login, RegisterPage } from "./pages";
+import {
+  MainPage,
+  About,
+  Login,
+  RegisterPage,
+  Contact,
+  AdminPage,
+  FeaturesPage,
+} from "./pages";
 import { UserContext } from "./context/UserContext";
 function App() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -13,13 +21,19 @@ function App() {
           {loggedIn === true ? (
             <Routes>
               <Route path="/" element={<MainPage />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/features" element={<FeaturesPage />} />
             </Routes>
           ) : (
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/features" element={<FeaturesPage />} />
             </Routes>
           )}
         </>

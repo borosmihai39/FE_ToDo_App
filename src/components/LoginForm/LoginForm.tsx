@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 const axios = require("axios").default;
 const LoginForm = () => {
-  let [userName, setUsername] = useState<String>("");
-  let [password, setPassword] = useState<String>("");
-  let [errorMessage, setErrorMessage] = useState<String>("");
+  let [userName, setUsername] = useState<string>("");
+  let [password, setPassword] = useState<string>("");
+  let [errorMessage, setErrorMessage] = useState<string>("");
   // let [loggedIn, setLoggedIn] = useState<boolean>(false);
   const { loggedIn, setLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const LoginForm = () => {
             setErrorMessage("Sucessfully logged in!");
             setLoggedIn(true);
             localStorage.setItem("authorizationToken", resp.data.token);
+            localStorage.setItem("username", userName);
             navigate("/");
             console.log(resp.data);
           } else {
@@ -99,7 +100,11 @@ const LoginForm = () => {
                 <Link
                   to="/register"
                   color="inherit"
-                  style={{ textDecoration: "none", color: "blue" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "rgb(57, 62, 70)",
+                    fontWeight: "bold",
+                  }}
                 >
                   Don't have an account? Register here
                 </Link>

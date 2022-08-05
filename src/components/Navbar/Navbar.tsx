@@ -20,7 +20,7 @@ const Navbar = () => {
     navigate("/");
   };
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ background: "rgb(0, 173, 181)" }}>
       <>{console.log(loggedIn)}</>
       <Toolbar sx={{ justifyContent: "flex-end" }}>
         <IconButton size="large" edge="start" color="inherit" aria-label="logo">
@@ -32,40 +32,84 @@ const Navbar = () => {
             <ListAltIcon />
           </Link>
         </IconButton>
+
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           To Do List App
         </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button color="inherit">
-            <Link
-              to="/about"
-              color="inherit"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              About
-            </Link>
-          </Button>
-          {loggedIn === false ? (
+        {localStorage.getItem("username") === "admin" ? (
+          <Stack direction="row" spacing={2}>
             <Button color="inherit">
               <Link
-                to="/login"
+                to="/admin"
                 color="inherit"
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Login
+                Admin Dashboard
               </Link>
             </Button>
-          ) : (
-            <Button
-              color="inherit"
-              onClick={() => {
-                userLogout();
-              }}
-            >
-              Logout
+            <Button color="inherit">
+              <Link
+                to="/features"
+                color="inherit"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Features
+              </Link>
             </Button>
-          )}
-        </Stack>
+            {loggedIn === false ? (
+              <Button color="inherit">
+                <Link
+                  to="/login"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Login
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                onClick={() => {
+                  userLogout();
+                }}
+              >
+                Logout
+              </Button>
+            )}
+          </Stack>
+        ) : (
+          <Stack direction="row" spacing={2}>
+            <Button color="inherit">
+              <Link
+                to="/features"
+                color="inherit"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Features
+              </Link>
+            </Button>
+            {loggedIn === false ? (
+              <Button color="inherit">
+                <Link
+                  to="/login"
+                  color="inherit"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Login
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                onClick={() => {
+                  userLogout();
+                }}
+              >
+                Logout
+              </Button>
+            )}
+          </Stack>
+        )}
       </Toolbar>
     </AppBar>
   );

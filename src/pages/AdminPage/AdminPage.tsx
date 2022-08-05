@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Todos, Navbar, Footer } from "../../components/index";
+import { Navbar, Footer, AdminDashboard } from "../../components/index";
+import "./AdminPage.css";
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/UserContext";
-const MainPage = () => {
+const AdminPage = () => {
   const { loggedIn, setLoggedIn } = useContext(UserContext);
   if (localStorage.getItem("authorizationToken")) {
     setLoggedIn(true);
@@ -10,15 +11,15 @@ const MainPage = () => {
     setLoggedIn(false);
   }
   return (
-    <>
+    <div className="flex-wrapper">
       <Helmet>
-        <title>Home Page</title>
+        <title>AdminPage</title>
       </Helmet>
       <Navbar />
-      <Todos />
+      <AdminDashboard />
       <Footer />
-    </>
+    </div>
   );
 };
 
-export default MainPage;
+export default AdminPage;

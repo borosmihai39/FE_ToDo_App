@@ -6,7 +6,7 @@ const Footer = () => {
     <footer>
       <Box
         py={{ xs: 5, sm: 5 }}
-        bgcolor="text.secondary"
+        bgcolor="rgb(34, 40, 49)"
         color="white"
         sx={{ marginTop: "3%" }}
       >
@@ -16,7 +16,7 @@ const Footer = () => {
               <Box borderBottom={1}>Help</Box>
               <Box>
                 <Link
-                  to="/"
+                  to="/contact"
                   color="inherit"
                   style={{ textDecoration: "none", color: "white" }}
                 >
@@ -49,7 +49,7 @@ const Footer = () => {
               <Box borderBottom={1}>About</Box>
               <Box>
                 <Link
-                  to="/about"
+                  to="/features"
                   color="inherit"
                   style={{ textDecoration: "none", color: "white" }}
                 >

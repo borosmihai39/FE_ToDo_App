@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Input,
-  Button,
-  Container,
-  InputLabel,
-  Grid,
-  Paper,
-  Typography,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Paper, Typography, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 const axios = require("axios").default;
@@ -31,6 +21,7 @@ const RegisterForm = () => {
       const newUserRegistration = {
         username: userName,
         password: password,
+        todos: [],
       };
 
       const sendRegistrationRequest = async () => {
@@ -119,7 +110,11 @@ const RegisterForm = () => {
                 <Link
                   to="/login"
                   color="inherit"
-                  style={{ textDecoration: "none", color: "blue" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "rgb(57, 62, 70)",
+                    fontWeight: "bold",
+                  }}
                 >
                   Back to Login
                 </Link>

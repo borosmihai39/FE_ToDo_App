@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect, useRef } from "react";
-import { Button, ButtonGroup, Input } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import axios from "axios";
 import "./Todos.css";
 import { UserContext } from "../../context/UserContext";
@@ -50,12 +50,16 @@ const Todos = (): JSX.Element => {
       setLoading(true);
       try {
         const { data: response } = await axios.get(
-          "http://localhost:3000/api/todos",
+          "http://localhost:3000/api/v2/todos",
+
           {
             headers: {
               Authorization: `bearer ${localStorage.getItem(
                 "authorizationToken"
               )}`,
+            },
+            params: {
+              username: localStorage.getItem("username"),
             },
           }
         );
@@ -64,7 +68,7 @@ const Todos = (): JSX.Element => {
         if (typeof error === "string") {
           console.error(error.toUpperCase());
         } else if (error instanceof Error) {
-          console.error(error.message);
+          console.error(error);
         }
       }
       setLoading(false);
@@ -77,7 +81,7 @@ const Todos = (): JSX.Element => {
     event.preventDefault(); // prevent page refresh
     axios
       .post("http://localhost:3000/api/todo", {
-        username: name,
+        username: localStorage.getItem("username"),
         todo: toDo,
         isDone: isDone,
         hasAttachment: hasAttachment,
@@ -186,11 +190,11 @@ const Todos = (): JSX.Element => {
           {!loading && (
             <ul id="todos">
               {data.length === 0
-                ? "There are no to do's added. Please add a new to do."
+                ? "There are no To Dos added. Please add a new To Do."
                 : data.map((item, index) => (
                     <li key={item._id}>
-                      <span id="thick-text">Username</span>
-                      {` ${item.username} `}
+                      {/* <span id="thick-text">Username</span>
+                      {` ${item.username} `} */}
                       <span id="thick-text">Todo</span>
                       {` ${item.todo} `}
                       <span id="thick-text">Is it done?</span>
@@ -239,15 +243,16 @@ const Todos = (): JSX.Element => {
                           ref={updateToDoForm}
                         >
                           <label>
-                            To Do:
+                            {`To Do? `}
                             <input
                               type="text"
                               name="name"
                               onChange={(event) => setToDo(event.target.value)}
                             />
+                            &nbsp;
                           </label>
                           <label htmlFor="isDoneUpdate">
-                            Is done?
+                            {`Is done?`}
                             <input
                               ref={checkbox3}
                               type="checkbox"
@@ -257,7 +262,7 @@ const Todos = (): JSX.Element => {
                             ></input>
                           </label>
                           <label htmlFor="hasAttachmentUpdate">
-                            Has Attachment?
+                            Has any attachments?
                             <input
                               ref={checkbox4}
                               type="checkbox"
@@ -285,23 +290,23 @@ const Todos = (): JSX.Element => {
             <h3>Add a To Do Item</h3>
 
             <label>
-              To Do:
+              {`To Do : `}
               <input
                 type="text"
                 name="name"
                 onChange={(event) => setToDo(event.target.value)}
               />
             </label>
-            <label>
+            {/* <label>
               Name:
               <input
                 type="text"
                 name="name"
                 onChange={(event) => setName(event.target.value)}
               />
-            </label>
+            </label> */}
             <label htmlFor="isDone">
-              Is done?
+              Is it done?
               <input
                 ref={checkbox1}
                 type="checkbox"
@@ -311,7 +316,7 @@ const Todos = (): JSX.Element => {
               ></input>
             </label>
             <label htmlFor="hasAttachment">
-              Has Attachment?
+              Has any attachments?
               <input
                 ref={checkbox2}
                 type="checkbox"
@@ -325,6 +330,7 @@ const Todos = (): JSX.Element => {
               type="submit"
               color="success"
               size="small"
+              sx={{ marginTop: 2 }}
             >
               Submit
             </Button>
