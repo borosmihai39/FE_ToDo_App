@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+# Main Page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A user must be **registered** and **logged in**, in order to be able to view the contents of the main page.
 
-## Available Scripts
+Once logged in, he can see the following:
 
-In the project directory, you can run:
+Add To Do Form.
 
-### `npm start`
+If **he has** any added To Dos => list of To Dos (can Update/Delete/Show To Do ID)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+If **he does not have** any To Dos => a message informing him that there are no To Dos.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Login Page
 
-### `npm test`
+On the Login Page, an already registered user can Log In or he can go to the Register Page in order to sign up for an account.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Register Page
 
-### `npm run build`
+On the Register Page, an unregistered user can sign up for a new account. Certain form validations are put in place _(no empty fields, no existing user)_
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Contact Page
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+On the Contact Page, both authenticated and anonymous users can send messages, which can be later seen by the admin user.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Admin Page
 
-### `npm run eject`
+Upon logging in as the admin user, a new link appears on the Navbar - _Admin dashboard_. On the dashboard, the admin can see messages sent via the contact form.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# [Legacy] Seed DB
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Legacy functionality that was used to seed the MongoDB collection with mock data. **Deprecated**, but kept for showcase purposes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Features Page
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Current page**. Web App features are explained here.
